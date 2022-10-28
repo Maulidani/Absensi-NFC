@@ -8,6 +8,7 @@ import android.nfc.Tag
 import android.nfc.tech.NfcA
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import domain.skripsi.absensinfc.R
 
@@ -39,6 +40,7 @@ class ScanNFCActivity : AppCompatActivity() {
             // Received data would be in the form of a byte array that can be converted to string
             //NFC_READ_COMMAND would be the custom command you would have to send to your NFC Tag in order to read it
         } else {
+            Toast.makeText(applicationContext, "NFC not connected", Toast.LENGTH_SHORT).show()
             Log.e("ans", "Not connected")
         }
     }
