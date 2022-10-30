@@ -6,7 +6,9 @@
         <entry key="app/src/main/res/drawable/state_bottom_navigation.xml" value="0.1615" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_all_class.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.40520043336944744" />
         <entry key="app/src/main/res/layout/fragment_today_class.xml" value="0.19583333333333333" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.19375" />
       </map>
