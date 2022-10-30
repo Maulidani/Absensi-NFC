@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="domain.skripsi.absensinfc">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.NFC"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.NFC" />
 
     <application
         android:allowBackup="true"
@@ -16,55 +16,60 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AbsensiNFC"
         tools:targetApi="31">
-
         <activity
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait"
-            android:name=".ui.DetailClassActivity"
-            android:exported="false" />
-        <activity
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait"
-            android:name=".ui.DetailStudentActivity"
-            android:exported="false" />
-        <activity
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait"
-            android:name=".ui.ProfileActivity"
-            android:exported="false" />
-        <activity
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait"
-            android:name=".ui.ScanNFCActivity"
-            android:exported="true">
+            android:name=".ui.SplashScreenActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.nfc.action.TECH_DISCOVERED"/>
-            </intent-filter>
-            <meta-data android:name="android.nfc.action.TECH_DISCOVERED"
-                android:resource="@xml/techlist"/>
         </activity>
+        <activity
+            android:name=".ui.DetailClassActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.DetailStudentActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.ProfileActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.ScanNFCActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
 
+            <intent-filter>
+                <action android:name="android.nfc.action.TECH_DISCOVERED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.nfc.action.TECH_DISCOVERED"
+                android:resource="@xml/techlist" />
+        </activity>
         <activity
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait"
             android:name=".ui.ClassActivity"
-            android:exported="false" />
-        <activity
-            android:windowSoftInputMode="adjustResize"
+            android:exported="false"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".ui.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:windowSoftInputMode="adjustResize"
+            android:exported="false"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".ui.HomeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
