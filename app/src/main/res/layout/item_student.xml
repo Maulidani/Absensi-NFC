@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/forth"
+        android:paddingHorizontal="18dp"
+        android:paddingVertical="24dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgStudent"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/logo_unm"
+            android:text="Nama mata kuliah"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStudentName"
+            android:textStyle="bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="Nama Mahasiswa"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/tvStudenNim"
+            app:layout_constraintLeft_toRightOf="@+id/imgStudent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imgStudent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStudenNim"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="NIM"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/tvStudentStatus"
+            app:layout_constraintLeft_toLeftOf="@id/tvStudentName"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStudentName" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStudentStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/imgStudent"
+            app:layout_constraintLeft_toLeftOf="@id/tvStudentName"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvStudenNim" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,4 +1,4 @@
-package domain.skripsi.absensinfc
+package domain.skripsi.absensinfc.ui
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.MPPointF
+import domain.skripsi.absensinfc.R
 
 class HomeFragment : Fragment() {
 

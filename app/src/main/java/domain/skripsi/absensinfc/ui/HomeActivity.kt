@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import domain.skripsi.absensinfc.HomeFragment
 import domain.skripsi.absensinfc.R
 
 class HomeActivity : AppCompatActivity() {

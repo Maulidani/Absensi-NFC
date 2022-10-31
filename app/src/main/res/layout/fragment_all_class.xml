@@ -34,6 +34,8 @@
             android:ellipsize="end"
             android:hint="Cari mata kuliah ..."
             android:lines="1"
+            android:maxLines="1"
+            android:inputType="text"
             android:paddingStart="12sp"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/tvHead" />
@@ -44,7 +46,8 @@
             android:layout_marginTop="12sp"
             android:paddingBottom="28dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etSearch" />
+            app:layout_constraintTop_toBottomOf="@+id/etSearch"
+            tools:listitem="@layout/item_class" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
