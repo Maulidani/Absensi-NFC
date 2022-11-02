@@ -50,7 +50,7 @@
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
+            android:layout_height="250dp"
             android:layout_centerHorizontal="true"
             android:layout_marginHorizontal="64dp"
             android:layout_marginTop="42dp"
@@ -59,14 +59,25 @@
             app:layout_constraintTop_toBottomOf="@+id/tvProfileName" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvClassNameChart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6sp"
+            android:gravity="center"
+            android:text="Matematika Komputer"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@+id/pieChart" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPercentage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12sp"
             android:gravity="center"
             android:text="Persentase kehadiran : 80%"
             android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@+id/pieChart" />
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@+id/tvClassNameChart" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -94,6 +105,16 @@
                     android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent" />
 
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMeetClass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:text="Pertemuan    : 10"
+                    android:textColor="@color/black"
+                    app:layout_constraintTop_toBottomOf="@+id/tvClassToday" />
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTimeClass"
                     android:layout_width="match_parent"
@@ -101,7 +122,7 @@
                     android:ellipsize="end"
                     android:text="Jadwal    : 09:00 - 12:00"
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@+id/tvClassToday" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvMeetClass" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvRoomClass"
