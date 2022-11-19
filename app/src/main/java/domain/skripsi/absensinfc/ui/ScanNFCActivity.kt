@@ -8,6 +8,7 @@ import android.nfc.Tag
 import android.nfc.tech.NfcA
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import domain.skripsi.absensinfc.R
@@ -15,12 +16,17 @@ import domain.skripsi.absensinfc.R
 class ScanNFCActivity : AppCompatActivity() {
 
     private var nfcAdapter: NfcAdapter? = null
+    private val tvSeeAll: TextView by lazy { findViewById(R.id.tvSeeAll) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scan_nfc)
 
         this.nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+
+        tvSeeAll.setOnClickListener {
+            startActivity(Intent(applicationContext, ClassStudentActivity::class.java))
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {

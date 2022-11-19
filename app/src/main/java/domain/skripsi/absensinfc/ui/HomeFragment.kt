@@ -1,13 +1,14 @@
 package domain.skripsi.absensinfc.ui
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
@@ -15,11 +16,13 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.MPPointF
+import com.google.android.material.button.MaterialButton
 import domain.skripsi.absensinfc.R
 
 class HomeFragment : Fragment() {
 
     lateinit var pieChart: PieChart
+    lateinit var btnPresence: MaterialButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,10 +35,16 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-      initChart()
+        btnPresence = requireView().findViewById(R.id.btnPresence)
+
+        btnPresence.setOnClickListener {
+            startActivity(Intent(requireContext().applicationContext, ScanNFCActivity::class.java))
+        }
+
+        initChart()
     }
 
-    private fun initChart(){
+    private fun initChart() {
 
         // on below line we are initializing our
         // variable with their ids.
@@ -48,11 +57,11 @@ class HomeFragment : Fragment() {
         pieChart.setExtraOffsets(5f, 10f, 5f, 5f)
 
         // on below line we are setting drag for our pie chart
-        pieChart.setDragDecelerationFrictionCoef(0.95f)
+        pieChart.dragDecelerationFrictionCoef = 0.95f
 
         // on below line we are setting hole
         // and hole color for pie chart
-        pieChart.setDrawHoleEnabled(true)
+        pieChart.isDrawHoleEnabled = true
         pieChart.setHoleColor(Color.WHITE)
 
         // on below line we are setting circle color and alpha
@@ -60,19 +69,19 @@ class HomeFragment : Fragment() {
         pieChart.setTransparentCircleAlpha(110)
 
         // on  below line we are setting hole radius
-        pieChart.setHoleRadius(58f)
-        pieChart.setTransparentCircleRadius(61f)
+        pieChart.holeRadius = 58f
+        pieChart.transparentCircleRadius = 61f
 
         // on below line we are setting center text
         pieChart.setDrawCenterText(true)
 
         // on below line we are setting
         // rotation for our pie chart
-        pieChart.setRotationAngle(0f)
+        pieChart.rotationAngle = 0f
 
         // enable rotation of the pieChart by touch
-        pieChart.setRotationEnabled(true)
-        pieChart.setHighlightPerTapEnabled(true)
+        pieChart.isRotationEnabled = true
+        pieChart.isHighlightPerTapEnabled = true
 
         // on below line we are setting animation for our pie chart
         pieChart.animateY(1400, Easing.EaseInOutQuad)
