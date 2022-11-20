@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/state_bottom_navigation.xml" value="0.1615" />
+        <entry key="app/src/main/res/layout/activity_class.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/activity_class_student.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/activity_detail_class.xml" value="0.19479166666666667" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.19479166666666667" />
