@@ -5,6 +5,10 @@ import android.content.SharedPreferences
 
 
 class PreferencesHelper(context: Context) {
+    companion object {
+        const val PREF_IS_LOGIN = "PREF_IS_LOGIN"
+        const val PREF_USER_TOKEN = "PREF_USER_TOKEN"
+    }
 
     private val prefName = "PREFS_NAME"
     private var sharedPref: SharedPreferences =

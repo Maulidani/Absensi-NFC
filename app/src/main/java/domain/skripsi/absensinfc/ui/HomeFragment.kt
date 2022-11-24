@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.animation.Easing
@@ -23,6 +24,7 @@ class HomeFragment : Fragment() {
 
     lateinit var pieChart: PieChart
     lateinit var btnPresence: MaterialButton
+    lateinit var tvTodayClass: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,9 +38,13 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         btnPresence = requireView().findViewById(R.id.btnPresence)
+        tvTodayClass = requireView().findViewById(R.id.tvTodayClass)
 
         btnPresence.setOnClickListener {
             startActivity(Intent(requireContext().applicationContext, ScanNFCActivity::class.java))
+        }
+        tvTodayClass.setOnClickListener {
+            startActivity(Intent(requireContext().applicationContext, ClassActivity::class.java))
         }
 
         initChart()

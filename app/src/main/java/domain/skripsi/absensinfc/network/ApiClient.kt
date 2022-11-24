@@ -3,6 +3,7 @@ package domain.skripsi.absensinfc.network
 import android.content.Context
 import domain.skripsi.absensinfc.utils.Constant
 import domain.skripsi.absensinfc.utils.PreferencesHelper
+import domain.skripsi.absensinfc.utils.PreferencesHelper.Companion.PREF_USER_TOKEN
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -12,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 object ApiClient {
-    private const val URL = "${Constant.BASE_URL}/api/"
+    private const val URL = "${Constant.BASE_URL}api/"
 
     val instancesNoToken: ApiService by lazy {
         val retrofit = Retrofit.Builder()
@@ -25,7 +26,7 @@ object ApiClient {
     class SetContext(context: Context) {
 
         private val sharedPref: PreferencesHelper = PreferencesHelper(context)
-        private val TOKEN: String? = sharedPref.getString(Constant.PREF_USER_TOKEN)
+        private val TOKEN: String? = sharedPref.getString(PREF_USER_TOKEN)
 
         private val interceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY

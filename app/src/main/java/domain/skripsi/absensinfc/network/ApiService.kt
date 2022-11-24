@@ -1,6 +1,7 @@
 package domain.skripsi.absensinfc.network
 
 import domain.skripsi.absensinfc.model.ResponseModel
+import domain.skripsi.absensinfc.model.ResponseModelDataIsObject
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -11,7 +12,7 @@ interface ApiService {
     fun apiLogin(
         @Field("username") email: String,
         @Field("password") password: String
-    ): Call<ResponseModel>
+    ): Call<ResponseModelDataIsObject>
 
     @GET("jadwal-dosen/")
     fun apiJadwalDosen(): Call<ResponseModel>
@@ -24,7 +25,7 @@ interface ApiService {
     @GET("bio-mhs/{code-mhs}")
     fun apiBiodataMahasiswa(
         @Path("code-mahasiswa") codeMhs:Int
-    ): Call<ResponseModel>
+    ): Call<ResponseModelDataIsObject>
 
     @GET("status-all-mhs/{code-pertemuan}")
     fun apiStatusAllMahasiswa(

@@ -47,45 +47,15 @@
             app:layout_constraintRight_toLeftOf="@id/imgLogo"
             app:layout_constraintTop_toBottomOf="@id/tvWelcome" />
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pieChart"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="64dp"
-            android:layout_marginTop="42dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvProfileName" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvClassNameChart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6sp"
-            android:gravity="center"
-            android:text="Matematika Komputer"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            app:layout_constraintTop_toBottomOf="@+id/pieChart" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvPercentage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Persentase kehadiran : 80%"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            app:layout_constraintTop_toBottomOf="@+id/tvClassNameChart" />
-
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardClassNow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="28dp"
+            android:layout_marginBottom="32dp"
             app:cardCornerRadius="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvPercentage"
+            app:layout_constraintTop_toBottomOf="@+id/tvProfileName"
             app:strokeColor="@color/second"
             app:strokeWidth="1dp">
 
@@ -105,15 +75,35 @@
                     android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginHorizontal="64dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvClassToday" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPercentage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Persentase kehadiran : 80%"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@+id/pieChart" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvMeetClass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
                     android:ellipsize="end"
                     android:text="Pertemuan    : 10"
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@+id/tvClassToday" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvPercentage" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTimeClass"
@@ -148,6 +138,16 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTodayClass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="18dp"
+            android:gravity="center"
+            android:text="Lihat semua mata kuliah hari ini >"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/cardClassNow" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

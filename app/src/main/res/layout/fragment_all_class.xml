@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="Mata Kuliah"
+            android:text="Semua Mata Kuliah"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
