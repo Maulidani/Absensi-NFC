@@ -7,7 +7,7 @@ import com.google.android.material.button.MaterialButton
 import domain.skripsi.absensinfc.R
 
 object Constant {
-        const val BASE_URL = "http://192.168.137.11:8000/"
+        const val BASE_URL = "http://192.168.224.5:8000/"
 
     fun MaterialButton.setShowProgress(showProgress: Boolean?) {
 
