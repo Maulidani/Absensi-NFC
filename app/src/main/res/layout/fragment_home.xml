@@ -70,13 +70,14 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    android:text="Mata kuliah saat ini : Matematika Computer"
+                    android:text="Mata kuliah saat ini : -"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pieChart"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:layout_centerHorizontal="true"
@@ -87,6 +88,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPercentage"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -101,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     android:ellipsize="end"
-                    android:text="Pertemuan    : 10"
+                    android:text="Pertemuan    : -"
                     android:textColor="@color/black"
                     app:layout_constraintTop_toBottomOf="@+id/tvPercentage" />
 
@@ -110,7 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:text="Jadwal    : 09:00 - 12:00"
+                    android:text="Jadwal    : -"
                     android:textColor="@color/black"
                     app:layout_constraintTop_toBottomOf="@+id/tvMeetClass" />
 
@@ -119,7 +121,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
-                    android:text="Ruangan   : A101"
+                    android:text="Ruangan   : -"
                     android:textColor="@color/black"
                     app:layout_constraintTop_toBottomOf="@+id/tvTimeClass" />
 

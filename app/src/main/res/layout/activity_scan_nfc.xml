@@ -87,13 +87,13 @@
                 android:text="Nama Mahasiswa"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/tvStudenNim"
+                app:layout_constraintBottom_toTopOf="@id/tvStudentNim"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/imgStatus"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvStudenNim"
+                android:id="@+id/tvStudentNim"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="NIM"

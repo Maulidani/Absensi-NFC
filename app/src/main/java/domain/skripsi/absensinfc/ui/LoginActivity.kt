@@ -17,6 +17,8 @@ import domain.skripsi.absensinfc.utils.PreferencesHelper.Companion.PREF_USER_TOK
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.collections.ArrayList
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var sharedPref: PreferencesHelper
@@ -76,6 +78,11 @@ class LoginActivity : AppCompatActivity() {
                         if (token != null) {
                             saveSession(token)
                             Log.e(this@LoginActivity.toString(), "onResponse: TOKEN : $token")
+                            Log.e(
+                                this@LoginActivity.toString(),
+                                "onResponse: data user : ${data!!.user[0].nama}"
+                            )
+
                         } else {
                             Toast.makeText(applicationContext, "Gagal", Toast.LENGTH_SHORT).show()
                         }
@@ -106,8 +113,14 @@ class LoginActivity : AppCompatActivity() {
         sharedPref.put(PREF_USER_TOKEN, token)
         sharedPref.put(PREF_IS_LOGIN, true)
 
-        Log.e(this@LoginActivity.toString(), "sharedPref: PREF_USER_TOKEN : ${sharedPref.getString(PREF_USER_TOKEN)}")
-        Log.e(this@LoginActivity.toString(), "sharedPref: PREF_IS_LOGIN : ${sharedPref.getBoolean(PREF_IS_LOGIN)}")
+        Log.e(
+            this@LoginActivity.toString(),
+            "sharedPref: PREF_USER_TOKEN : ${sharedPref.getString(PREF_USER_TOKEN)}"
+        )
+        Log.e(
+            this@LoginActivity.toString(),
+            "sharedPref: PREF_IS_LOGIN : ${sharedPref.getBoolean(PREF_IS_LOGIN)}"
+        )
 
         startActivity(Intent(applicationContext, HomeActivity::class.java))
         finish()

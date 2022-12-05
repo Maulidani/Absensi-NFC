@@ -31,16 +31,16 @@
             android:id="@+id/tvClassTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Jadwal : 00:00"
+            android:text="Jadwal : -"
             android:textColor="@color/black"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvClassName" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/rvClassRoom"
+            android:id="@+id/tvClassRoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ruangan : 000"
+            android:text="Kode/Kelas : -"
             android:textColor="@color/black"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvClassTime" />

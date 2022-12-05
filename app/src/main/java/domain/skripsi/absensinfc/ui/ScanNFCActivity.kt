@@ -8,25 +8,50 @@ import android.nfc.Tag
 import android.nfc.tech.NfcA
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import domain.skripsi.absensinfc.R
+import domain.skripsi.absensinfc.utils.PreferencesHelper
 
 class ScanNFCActivity : AppCompatActivity() {
+    private lateinit var sharedPref: PreferencesHelper
 
     private var nfcAdapter: NfcAdapter? = null
+    private val imgBack: ImageView by lazy { findViewById(R.id.imgBack) }
     private val tvSeeAll: TextView by lazy { findViewById(R.id.tvSeeAll) }
+    private val tvHead: TextView by lazy { findViewById(R.id.tvHead) }
+    private val tvStudentName: TextView by lazy { findViewById(R.id.tvStudentName) }
+    private val tvStudentNim: TextView by lazy { findViewById(R.id.tvStudentNim) }
+    private val tvStudentStatus: TextView by lazy { findViewById(R.id.tvStudentStatus) }
+
+    private var intentJadwalId: String? = null
+    private var intentMatkulName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scan_nfc)
 
+        sharedPref = PreferencesHelper(applicationContext)
+
         this.nfcAdapter = NfcAdapter.getDefaultAdapter(this)
 
+        intentJadwalId = intent.getStringExtra("jadwal_id").toString()
+        intentMatkulName = intent.getStringExtra("matkul_name").toString()
+
+        tvHead.text = "Absen : $intentMatkulName"
+
+        imgBack.setOnClickListener { finish() }
+        
         tvSeeAll.setOnClickListener {
             startActivity(Intent(applicationContext, ClassStudentActivity::class.java))
         }
+
+        //
+        tvStudentName.text = "-"
+        tvStudentNim.text = "-"
+        tvStudentStatus.text = "-"
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -73,5 +98,10 @@ class ScanNFCActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         enableForegroundDispatch(this, this.nfcAdapter)
+
+        if (!sharedPref.getBoolean(PreferencesHelper.PREF_IS_LOGIN)) {
+            startActivity(Intent(applicationContext, LoginActivity::class.java))
+            finish()
+        }
     }
 }
