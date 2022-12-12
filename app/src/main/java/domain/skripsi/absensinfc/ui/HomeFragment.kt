@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
@@ -38,6 +39,7 @@ class HomeFragment : Fragment() {
     private lateinit var sharedPref: PreferencesHelper
 
     lateinit var pieChart: PieChart
+    lateinit var loading: ProgressBar
     lateinit var btnPresence: MaterialButton
     lateinit var tvTodayClass: TextView
 
@@ -59,6 +61,7 @@ class HomeFragment : Fragment() {
 
         sharedPref = PreferencesHelper(requireActivity())
 
+        loading = requireView().findViewById(R.id.progressBar)
         btnPresence = requireView().findViewById(R.id.btnPresence)
         tvTodayClass = requireView().findViewById(R.id.tvTodayClass)
         tvClassToday = requireView().findViewById(R.id.tvClassToday)
@@ -66,6 +69,7 @@ class HomeFragment : Fragment() {
         tvTimeClass = requireView().findViewById(R.id.tvTimeClass)
         tvRoomClass = requireView().findViewById(R.id.tvRoomClass)
 
+        loading.visibility = View.GONE
         btnPresence.isEnabled = false
 //        btnPresence.setOnClickListener // init later after getData
 
@@ -77,6 +81,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun getClass() {
+        loading.visibility = View.VISIBLE
 
         ApiClient.SetContext(requireActivity()).instancesWithToken.apiJadwalDosen()
             .enqueue(object : Callback<ResponseModel> {
@@ -89,38 +94,53 @@ class HomeFragment : Fragment() {
                     val message = responseBody?.message
                     val data = responseBody?.data
 
-                    if (response.isSuccessful && status == true) {
-                        Log.e(requireView().toString(), "onResponse: $response")
+                    if (isAdded && activity != null && view != null) {
+                        if (response.isSuccessful && status == true) {
+                            Log.e(requireView().toString(), "onResponse: $response")
 
+                            if (data != null) {
+                                Log.e(requireView().toString(), "onResponse: $data")
+                                initMatkul(data)
 
-                        if (data != null) {
-                            Log.e(requireView().toString(), "onResponse: $data")
-                            initMatkul(data)
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Tidak ada data",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+
+                            }
 
                         } else {
-                            Toast.makeText(requireContext(), "Tidak ada data", Toast.LENGTH_SHORT)
+
+                            sharedPref.logout()
+                            startActivity(Intent(requireActivity(), LoginActivity::class.java))
+                            activity?.finish()
+
+                            Log.e(requireView().toString(), "onResponse: $response")
+                            Toast.makeText(
+                                requireContext(),
+                                "Gagal : login ulang",
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
-
                         }
+                        loading.visibility = View.GONE
 
-                    } else {
-
-                        sharedPref.logout()
-                        startActivity(Intent(requireActivity(), LoginActivity::class.java))
-                        activity?.finish()
-
-                        Log.e(requireView().toString(), "onResponse: $response")
-                        Toast.makeText(requireContext(), "Gagal : login ulang", Toast.LENGTH_SHORT)
-                            .show()
                     }
 
                 }
 
                 override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
 
-                    Log.e(requireView().toString(), "onFailure: $t")
-                    Toast.makeText(requireContext(), t.message.toString(), Toast.LENGTH_SHORT)
-                        .show()
+                    if (isAdded && activity != null && view != null) {
+                        Log.e(requireView().toString(), "onFailure: $t")
+                        Toast.makeText(requireContext(), "Gagal : Terjadi kesalahan"+t.message.toString(), Toast.LENGTH_SHORT)
+                            .show()
+                        loading.visibility = View.GONE
+
+                    }
 
                 }
 
@@ -176,16 +196,20 @@ class HomeFragment : Fragment() {
 
             if (timeToInt in timeMatkuMulailToInt..timeMatkuSelesailToInt) {
                 btnPresence.isEnabled = true
-                tvClassToday.text = "Mata kuliah saat ini : ${i.pembagian_jadwal.matkul.nama_matkul}"
+                tvClassToday.text =
+                    "Mata kuliah saat ini : ${i.pembagian_jadwal.matkul.nama_matkul}"
                 tvMeetClass.text = "Pertemuan : -"
-                tvTimeClass.text = "Jadwal : ${i.pembagian_jadwal.jam_mulai} - ${i.pembagian_jadwal.jam_selesai}"
-                tvRoomClass.text = "Kode/Kelas : ${i.pembagian_jadwal.kelas.kode_kelas}/${i.pembagian_jadwal.kelas.kelas}"
+                tvTimeClass.text =
+                    "Jadwal : ${i.pembagian_jadwal.jam_mulai} - ${i.pembagian_jadwal.jam_selesai}"
+                tvRoomClass.text =
+                    "Kode/Kelas : ${i.pembagian_jadwal.kelas.kode_kelas}/${i.pembagian_jadwal.kelas.kelas}"
 
                 btnPresence.setOnClickListener {
                     if (btnPresence.isEnabled) {
-                        startActivity(Intent(requireContext().applicationContext, ScanNFCActivity::class.java)
-                            .putExtra("jadwal_id", i.id)
-                            .putExtra("matkul_name", i.pembagian_jadwal.matkul.nama_matkul)
+                        startActivity(
+                            Intent(requireContext().applicationContext, ScanNFCActivity::class.java)
+                                .putExtra("jadwal_id", i.id)
+                                .putExtra("matkul_name", i.pembagian_jadwal.matkul.nama_matkul)
                         )
                     }
                 }

@@ -12,6 +12,16 @@
         android:layout_marginHorizontal="28dp"
         android:layout_marginTop="28dp">
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="85dp"
+            android:minWidth="40dp"
+            android:minHeight="40dp"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/etSearch" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvHead"
             android:layout_width="wrap_content"
@@ -41,6 +51,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvHead" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMatkulAllDosen"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="12sp"

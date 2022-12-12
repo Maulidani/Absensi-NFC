@@ -8,17 +8,22 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import domain.skripsi.absensinfc.R
+import domain.skripsi.absensinfc.model.ResponseData
 import domain.skripsi.absensinfc.model.ResponseModelDataIsObject
 import domain.skripsi.absensinfc.network.ApiClient
 import domain.skripsi.absensinfc.utils.Constant.setShowProgress
 import domain.skripsi.absensinfc.utils.PreferencesHelper
 import domain.skripsi.absensinfc.utils.PreferencesHelper.Companion.PREF_IS_LOGIN
+import domain.skripsi.absensinfc.utils.PreferencesHelper.Companion.PREF_USER_EMAIL
+import domain.skripsi.absensinfc.utils.PreferencesHelper.Companion.PREF_USER_NAME
+import domain.skripsi.absensinfc.utils.PreferencesHelper.Companion.PREF_USER_NIP
+import domain.skripsi.absensinfc.utils.PreferencesHelper.Companion.PREF_USER_PHONE
+import domain.skripsi.absensinfc.utils.PreferencesHelper.Companion.PREF_USER_PHOTO
 import domain.skripsi.absensinfc.utils.PreferencesHelper.Companion.PREF_USER_TOKEN
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
-import kotlin.collections.ArrayList
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var sharedPref: PreferencesHelper
@@ -76,12 +81,8 @@ class LoginActivity : AppCompatActivity() {
                     if (response.isSuccessful && status == true) {
                         Log.e(this@LoginActivity.toString(), "onResponse: $response")
                         if (token != null) {
-                            saveSession(token)
+                            saveSession(token, data)
                             Log.e(this@LoginActivity.toString(), "onResponse: TOKEN : $token")
-                            Log.e(
-                                this@LoginActivity.toString(),
-                                "onResponse: data user : ${data!!.user[0].nama}"
-                            )
 
                         } else {
                             Toast.makeText(applicationContext, "Gagal", Toast.LENGTH_SHORT).show()
@@ -98,7 +99,7 @@ class LoginActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<ResponseModelDataIsObject>, t: Throwable) {
 
                     Log.e(this@LoginActivity.toString(), "onFailure: $t")
-                    Toast.makeText(applicationContext, t.message.toString(), Toast.LENGTH_SHORT)
+                    Toast.makeText(applicationContext, "Gagal : Terjadi kesalahan"+t.message.toString(), Toast.LENGTH_SHORT)
                         .show()
 
                     btnLogin.setShowProgress(false)
@@ -107,22 +108,36 @@ class LoginActivity : AppCompatActivity() {
             })
     }
 
-    private fun saveSession(token: String) {
+    private fun saveSession(token: String, data: ResponseData?) {
 
         sharedPref.logout()
-        sharedPref.put(PREF_USER_TOKEN, token)
-        sharedPref.put(PREF_IS_LOGIN, true)
 
-        Log.e(
-            this@LoginActivity.toString(),
-            "sharedPref: PREF_USER_TOKEN : ${sharedPref.getString(PREF_USER_TOKEN)}"
-        )
-        Log.e(
-            this@LoginActivity.toString(),
-            "sharedPref: PREF_IS_LOGIN : ${sharedPref.getBoolean(PREF_IS_LOGIN)}"
-        )
+        if (data != null) {
+            sharedPref.put(PREF_USER_TOKEN, token)
+            sharedPref.put(PREF_IS_LOGIN, true)
 
-        startActivity(Intent(applicationContext, HomeActivity::class.java))
-        finish()
+            sharedPref.put(PREF_USER_NAME, data.user[0].nama)
+            sharedPref.put(PREF_USER_NIP, data.user[0].nip.toString())
+            sharedPref.put(PREF_USER_PHONE, data.user[0].no_tlp)
+            sharedPref.put(PREF_USER_EMAIL, data.user[0].email)
+            sharedPref.put(PREF_USER_PHOTO, data.user[0].foto)
+
+            Log.e(
+                this@LoginActivity.toString(),
+                "sharedPref: PREF_USER_TOKEN : ${sharedPref.getString(PREF_USER_TOKEN)}"
+            )
+            Log.e(
+                this@LoginActivity.toString(),
+                "sharedPref: PREF_IS_LOGIN : ${sharedPref.getBoolean(PREF_IS_LOGIN)}"
+            )
+
+            startActivity(Intent(applicationContext, HomeActivity::class.java))
+            finish()
+
+        } else {
+            Toast.makeText(applicationContext, "Gagal : Tidak ada data user", Toast.LENGTH_SHORT)
+                .show()
+        }
+
     }
 }

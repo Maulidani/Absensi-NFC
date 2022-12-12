@@ -59,6 +59,15 @@
             app:strokeColor="@color/second"
             app:strokeWidth="1dp">
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minWidth="40dp"
+                android:minHeight="40dp"
+                android:padding="65dp"
+                android:visibility="visible" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -77,24 +86,24 @@
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/pieChart"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginHorizontal="64dp"
+                    android:visibility="gone"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvClassToday" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPercentage"
-                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Persentase kehadiran : 80%"
                     android:textColor="@color/black"
                     android:textSize="12sp"
+                    android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@+id/pieChart" />
 
                 <androidx.appcompat.widget.AppCompatTextView

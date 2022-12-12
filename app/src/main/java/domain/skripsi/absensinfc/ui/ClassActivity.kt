@@ -4,7 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +28,7 @@ class ClassActivity : AppCompatActivity() {
 
     private val imgBack: ImageView by lazy { findViewById(R.id.imgBack) }
     private val rvTodayClass: RecyclerView by lazy { findViewById(R.id.rvTodayClass) }
+    private val loading: ProgressBar by lazy { findViewById(R.id.progressBar) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +36,15 @@ class ClassActivity : AppCompatActivity() {
 
         sharedPref = PreferencesHelper(applicationContext)
 
+        loading.visibility = View.GONE
+
         getClass()
 
         imgBack.setOnClickListener { finish() }
     }
 
     private fun getClass() {
+        loading.visibility = View.VISIBLE
 
         ApiClient.SetContext(applicationContext).instancesWithToken.apiJadwalDosen()
             .enqueue(object : Callback<ResponseModel> {
@@ -77,6 +83,8 @@ class ClassActivity : AppCompatActivity() {
                         ).show()
                     }
 
+                    loading.visibility = View.GONE
+
                 }
 
                 override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
@@ -84,6 +92,8 @@ class ClassActivity : AppCompatActivity() {
                     Log.e(this@ClassActivity.toString(), "onFailure: $t")
                     Toast.makeText(applicationContext, t.message.toString(), Toast.LENGTH_SHORT)
                         .show()
+
+                    loading.visibility = View.GONE
 
                 }
 

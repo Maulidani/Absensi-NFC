@@ -45,7 +45,11 @@ class ScanNFCActivity : AppCompatActivity() {
         imgBack.setOnClickListener { finish() }
         
         tvSeeAll.setOnClickListener {
-            startActivity(Intent(applicationContext, ClassStudentActivity::class.java))
+            startActivity(
+                Intent(applicationContext, ClassStudentActivity::class.java)
+                    .putExtra("jadwal_id", intentJadwalId)
+                    .putExtra("matkul_name", intentMatkulName)
+            )
         }
 
         //
