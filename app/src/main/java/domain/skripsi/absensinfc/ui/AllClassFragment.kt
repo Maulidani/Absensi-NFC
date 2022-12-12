@@ -42,10 +42,11 @@ class AllClassFragment : Fragment() {
 
         loading.visibility = View.GONE
 
-//        getAllClass()
+        getAllClass()
     }
 
     private fun getAllClass() {
+        loading.visibility = View.VISIBLE
 
         ApiClient.SetContext(requireActivity()).instancesWithToken.apiMatkulAllDosen()
             .enqueue(object : Callback<ResponseModel> {
@@ -68,6 +69,15 @@ class AllClassFragment : Fragment() {
                                 rvMatkulAllDosen.layoutManager =
                                     LinearLayoutManager(requireContext())
                                 rvMatkulAllDosen.adapter = adapter
+
+                                if (data.size == 0) {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Tidak ada data",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                                }
 
                             } else {
                                 Toast.makeText(
@@ -92,6 +102,7 @@ class AllClassFragment : Fragment() {
                             )
                                 .show()
                         }
+                        loading.visibility = View.GONE
                     }
 
                 }
@@ -106,6 +117,7 @@ class AllClassFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
 
+                        loading.visibility = View.GONE
 
                     }
 

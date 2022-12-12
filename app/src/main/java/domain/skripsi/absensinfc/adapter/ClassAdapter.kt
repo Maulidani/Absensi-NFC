@@ -1,15 +1,18 @@
 package domain.skripsi.absensinfc.adapter
 
-import android.util.Log
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import domain.skripsi.absensinfc.R
 import domain.skripsi.absensinfc.model.ResponseData
+import domain.skripsi.absensinfc.ui.DetailClassActivity
+import domain.skripsi.absensinfc.ui.DetailStudentActivity
 import java.util.*
 
 
@@ -28,22 +31,39 @@ class ClassAdapter(
 
         fun bindData(list: ResponseData) {
 
-            tvClassName.text = list.pembagian_jadwal.matkul.nama_matkul
-
             if (type == "today") {
+                tvClassName.text = list.matkul.nama_matkul
                 tvClassTime.text =
-                    "Jadwal : ${list.pembagian_jadwal.jam_mulai} - ${list.pembagian_jadwal.jam_selesai}"
+                    "Jadwal : ${list.jam_mulai} - ${list.jam_selesai}"
                 tvClassRoom.text =
-                    "Kode/Kelas : ${list.pembagian_jadwal.kelas.kode_kelas}/${list.pembagian_jadwal.kelas.kelas}"
+                    "Kode/Kelas : ${list.kelas.kode_kelas}/${list.kelas.kelas}"
 
                 item.setOnClickListener {
                     Toast.makeText(itemView.context, "type : $type", Toast.LENGTH_SHORT).show()
+
+                    ContextCompat.startActivity(
+                        itemView.context,
+                        Intent(itemView.context, DetailClassActivity::class.java)
+//                            .putExtra("id", list.id)
+                        , null
+                    )
                 }
 
             } else {
+                tvClassTime.visibility = View.GONE
+                tvClassRoom.visibility = View.GONE
+
+                tvClassName.text = list.matkul.nama_matkul
 
                 item.setOnClickListener {
                     Toast.makeText(itemView.context, "type : $type", Toast.LENGTH_SHORT).show()
+
+                    ContextCompat.startActivity(
+                        itemView.context,
+                        Intent(itemView.context, DetailClassActivity::class.java)
+//                            .putExtra("id", list.id)
+                        , null
+                    )
                 }
             }
 
@@ -52,7 +72,7 @@ class ClassAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         return ListViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_class_time, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_class, parent, false)
         )
     }
 

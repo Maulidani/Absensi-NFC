@@ -51,7 +51,7 @@ class ProfileFragment : Fragment() {
         emailTextField.hint = sharedPref.getString(PreferencesHelper.PREF_USER_EMAIL)
 
         imgProfile.load(
-            Constant.BASE_URL  +
+            Constant.URL_IMAGE  +"dosen/"+
                     sharedPref.getString(PreferencesHelper.PREF_USER_PHOTO)
         ) {
             crossfade(true)

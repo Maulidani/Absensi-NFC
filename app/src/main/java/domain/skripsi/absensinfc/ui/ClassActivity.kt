@@ -66,6 +66,15 @@ class ClassActivity : AppCompatActivity() {
                             rvTodayClass.layoutManager = LinearLayoutManager(applicationContext)
                             rvTodayClass.adapter = adapter
 
+                            if (data.size == 0) {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Tidak ada data",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+
                         } else {
                             Toast.makeText(applicationContext, "Tidak ada data", Toast.LENGTH_SHORT)
                                 .show()

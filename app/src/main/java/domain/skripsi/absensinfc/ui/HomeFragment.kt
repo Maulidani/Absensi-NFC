@@ -44,7 +44,6 @@ class HomeFragment : Fragment() {
     lateinit var tvTodayClass: TextView
 
     lateinit var tvClassToday: TextView
-    lateinit var tvMeetClass: TextView
     lateinit var tvTimeClass: TextView
     lateinit var tvRoomClass: TextView
 
@@ -65,7 +64,6 @@ class HomeFragment : Fragment() {
         btnPresence = requireView().findViewById(R.id.btnPresence)
         tvTodayClass = requireView().findViewById(R.id.tvTodayClass)
         tvClassToday = requireView().findViewById(R.id.tvClassToday)
-        tvMeetClass = requireView().findViewById(R.id.tvMeetClass)
         tvTimeClass = requireView().findViewById(R.id.tvTimeClass)
         tvRoomClass = requireView().findViewById(R.id.tvRoomClass)
 
@@ -102,6 +100,15 @@ class HomeFragment : Fragment() {
                                 Log.e(requireView().toString(), "onResponse: $data")
                                 initMatkul(data)
 
+                                if (data.size == 0) {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Tidak ada jadwal hari ini",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                                }
+
                             } else {
                                 Toast.makeText(
                                     requireContext(),
@@ -136,7 +143,11 @@ class HomeFragment : Fragment() {
 
                     if (isAdded && activity != null && view != null) {
                         Log.e(requireView().toString(), "onFailure: $t")
-                        Toast.makeText(requireContext(), "Gagal : Terjadi kesalahan"+t.message.toString(), Toast.LENGTH_SHORT)
+                        Toast.makeText(
+                            requireContext(),
+                            "Gagal : Terjadi kesalahan :" + t.message.toString(),
+                            Toast.LENGTH_SHORT
+                        )
                             .show()
                         loading.visibility = View.GONE
 
@@ -175,41 +186,41 @@ class HomeFragment : Fragment() {
         for (i in data) {
             Log.e(
                 requireView().toString(),
-                "iniMatkul: data matkul: nama: " + i.pembagian_jadwal.matkul.nama_matkul
+                "iniMatkul: data matkul: nama: " + i.matkul.nama_matkul
             )
             Log.e(
                 requireView().toString(),
-                "iniMatkul: data matkul: hari: " + i.pembagian_jadwal.hari
+                "iniMatkul: data matkul: hari: " + i.hari
             )
             Log.e(
                 requireView().toString(),
-                "iniMatkul: data matkul: jam mulai: " + i.pembagian_jadwal.jam_mulai
+                "iniMatkul: data matkul: jam mulai: " + i.jam_mulai
             )
             Log.e(
                 requireView().toString(),
-                "iniMatkul: data matkul: jam selesai: " + i.pembagian_jadwal.jam_selesai
+                "iniMatkul: data matkul: jam selesai: " + i.jam_selesai
             )
 
             val timeToInt = time.replace(":", "").toInt()
-            val timeMatkuMulailToInt = i.pembagian_jadwal.jam_mulai.replace(":", "").toInt()
-            val timeMatkuSelesailToInt = i.pembagian_jadwal.jam_selesai.replace(":", "").toInt()
+            val timeMatkuMulailToInt = i.jam_mulai.replace(":", "").toInt()
+            val timeMatkuSelesailToInt = i.jam_selesai.replace(":", "").toInt()
 
-            if (timeToInt in timeMatkuMulailToInt..timeMatkuSelesailToInt) {
+            if (timeToInt in timeMatkuMulailToInt..timeMatkuSelesailToInt && day == i.hari) {
                 btnPresence.isEnabled = true
                 tvClassToday.text =
-                    "Mata kuliah saat ini : ${i.pembagian_jadwal.matkul.nama_matkul}"
-                tvMeetClass.text = "Pertemuan : -"
+                    "Mata kuliah saat ini : ${i.matkul.nama_matkul}"
                 tvTimeClass.text =
-                    "Jadwal : ${i.pembagian_jadwal.jam_mulai} - ${i.pembagian_jadwal.jam_selesai}"
+                    "Jadwal : ${i.jam_mulai} - ${i.jam_selesai}"
                 tvRoomClass.text =
-                    "Kode/Kelas : ${i.pembagian_jadwal.kelas.kode_kelas}/${i.pembagian_jadwal.kelas.kelas}"
+                    "Kode/Kelas : ${i.kelas.kode_kelas}/${i.kelas.kelas}"
 
                 btnPresence.setOnClickListener {
                     if (btnPresence.isEnabled) {
                         startActivity(
                             Intent(requireContext().applicationContext, ScanNFCActivity::class.java)
-                                .putExtra("jadwal_id", i.id)
-                                .putExtra("matkul_name", i.pembagian_jadwal.matkul.nama_matkul)
+                                .putExtra("jadwal_id", i.id.toString())
+                                .putExtra("matkul_name", i.matkul.nama_matkul)
+                                .putExtra("pertemuan", i.pertemuan)
                         )
                     }
                 }

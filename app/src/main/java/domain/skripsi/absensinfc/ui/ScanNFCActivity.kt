@@ -8,10 +8,12 @@ import android.nfc.Tag
 import android.nfc.tech.NfcA
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import domain.skripsi.absensinfc.R
 import domain.skripsi.absensinfc.utils.PreferencesHelper
 
@@ -22,12 +24,14 @@ class ScanNFCActivity : AppCompatActivity() {
     private val imgBack: ImageView by lazy { findViewById(R.id.imgBack) }
     private val tvSeeAll: TextView by lazy { findViewById(R.id.tvSeeAll) }
     private val tvHead: TextView by lazy { findViewById(R.id.tvHead) }
+    private val cardResultNfc: CardView by lazy { findViewById(R.id.cardResultNfc) }
     private val tvStudentName: TextView by lazy { findViewById(R.id.tvStudentName) }
     private val tvStudentNim: TextView by lazy { findViewById(R.id.tvStudentNim) }
     private val tvStudentStatus: TextView by lazy { findViewById(R.id.tvStudentStatus) }
 
     private var intentJadwalId: String? = null
     private var intentMatkulName: String? = null
+    private var intentPertemuan: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,16 +43,20 @@ class ScanNFCActivity : AppCompatActivity() {
 
         intentJadwalId = intent.getStringExtra("jadwal_id").toString()
         intentMatkulName = intent.getStringExtra("matkul_name").toString()
+        intentPertemuan = intent.getStringExtra("pertemuan").toString()
+
+//        cardResultNfc.visibility = View.GONE
 
         tvHead.text = "Absen : $intentMatkulName"
 
         imgBack.setOnClickListener { finish() }
-        
+
         tvSeeAll.setOnClickListener {
             startActivity(
                 Intent(applicationContext, ClassStudentActivity::class.java)
                     .putExtra("jadwal_id", intentJadwalId)
                     .putExtra("matkul_name", intentMatkulName)
+                    .putExtra("pertemuan", intentPertemuan)
             )
         }
 
@@ -56,6 +64,7 @@ class ScanNFCActivity : AppCompatActivity() {
         tvStudentName.text = "-"
         tvStudentNim.text = "-"
         tvStudentStatus.text = "-"
+
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -74,6 +83,9 @@ class ScanNFCActivity : AppCompatActivity() {
             //code to handle the received data
             // Received data would be in the form of a byte array that can be converted to string
             //NFC_READ_COMMAND would be the custom command you would have to send to your NFC Tag in order to read it
+
+//            cardResultNfc.visibility = View.VISIBLE
+
         } else {
             Toast.makeText(applicationContext, "NFC not connected", Toast.LENGTH_SHORT).show()
             Log.e("ans", "Not connected")

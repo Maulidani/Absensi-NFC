@@ -30,13 +30,22 @@ class ResponseData(
     val pertemuan: String,
     val waktu_absen: String,
     val user_id: Int,
-    val jadwal: ResponseJadwal
+    val jadwal: ResponseJadwal,
+
+    val hari: String,
+    val jam_mulai: String,
+    val jam_selesai: String,
+    val kelas: ResponseKelas,
+
+    val mata_kuliah_id: Int,
+    val matkul: ResponseMatkul
 
 )
 
 class ResponseUser(
     val id: Int,
     val nip: Int,
+    val nim: Int,
     val nama: String,
     val tgl_lhr: String,
     val tempat_lhr: String,
