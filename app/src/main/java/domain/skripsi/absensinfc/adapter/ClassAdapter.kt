@@ -1,6 +1,7 @@
 package domain.skripsi.absensinfc.adapter
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,12 +42,7 @@ class ClassAdapter(
                 item.setOnClickListener {
                     Toast.makeText(itemView.context, "type : $type", Toast.LENGTH_SHORT).show()
 
-                    ContextCompat.startActivity(
-                        itemView.context,
-                        Intent(itemView.context, DetailClassActivity::class.java)
-//                            .putExtra("id", list.id)
-                        , null
-                    )
+//                    intentToDetailClass()
                 }
 
             } else {
@@ -54,19 +50,24 @@ class ClassAdapter(
                 tvClassRoom.visibility = View.GONE
 
                 tvClassName.text = list.matkul.nama_matkul
+                tvClassName.typeface = Typeface.DEFAULT
 
                 item.setOnClickListener {
                     Toast.makeText(itemView.context, "type : $type", Toast.LENGTH_SHORT).show()
 
-                    ContextCompat.startActivity(
-                        itemView.context,
-                        Intent(itemView.context, DetailClassActivity::class.java)
-//                            .putExtra("id", list.id)
-                        , null
-                    )
+//                    intentToDetailClass()
                 }
             }
 
+        }
+
+        private fun intentToDetailClass() {
+            ContextCompat.startActivity(
+                itemView.context,
+                Intent(itemView.context, DetailClassActivity::class.java)
+//                            .putExtra("id", list.id)
+                , null
+            )
         }
     }
 

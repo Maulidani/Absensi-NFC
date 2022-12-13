@@ -53,12 +53,12 @@ class StudentAdapter(
                 } else {
                     Toast.makeText(itemView.context, "type : detail", Toast.LENGTH_SHORT).show()
 
-                    ContextCompat.startActivity(
-                        itemView.context,
-                        Intent(itemView.context, DetailStudentActivity::class.java)
-//                            .putExtra("id", list.id)
-                        , null
-                    )
+//                    ContextCompat.startActivity(
+//                        itemView.context,
+//                        Intent(itemView.context, DetailStudentActivity::class.java)
+////                            .putExtra("id", list.id)
+//                        , null
+//                    )
                 }
             }
         }
