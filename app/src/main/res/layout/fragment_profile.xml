@@ -113,7 +113,7 @@
             android:id="@+id/tvLogout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="34dp"
             android:text="Keluar"
             android:textColor="@android:color/holo_red_light"
             android:textSize="16sp"

@@ -26,6 +26,7 @@ import domain.skripsi.absensinfc.model.ResponseData
 import domain.skripsi.absensinfc.model.ResponseModel
 import domain.skripsi.absensinfc.network.ApiClient
 import domain.skripsi.absensinfc.utils.PreferencesHelper
+import domain.skripsi.absensinfc.utils.PreferencesHelper.Companion.PREF_USER_NAME
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,6 +43,7 @@ class HomeFragment : Fragment() {
     lateinit var loading: ProgressBar
     lateinit var btnPresence: MaterialButton
     lateinit var tvTodayClass: TextView
+    lateinit var tvProfileName: TextView
 
     lateinit var tvClassToday: TextView
     lateinit var tvTimeClass: TextView
@@ -61,6 +63,7 @@ class HomeFragment : Fragment() {
         sharedPref = PreferencesHelper(requireActivity())
 
         loading = requireView().findViewById(R.id.progressBar)
+        tvProfileName = requireView().findViewById(R.id.tvProfileName)
         btnPresence = requireView().findViewById(R.id.btnPresence)
         tvTodayClass = requireView().findViewById(R.id.tvTodayClass)
         tvClassToday = requireView().findViewById(R.id.tvClassToday)
@@ -69,6 +72,9 @@ class HomeFragment : Fragment() {
 
         loading.visibility = View.GONE
         btnPresence.isEnabled = false
+
+        tvProfileName.text = sharedPref.getString(PREF_USER_NAME)
+
 //        btnPresence.setOnClickListener // init later after getData
 
         tvTodayClass.setOnClickListener {

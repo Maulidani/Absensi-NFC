@@ -42,6 +42,7 @@ class StudentAdapter(
 
             imgStudent.load(Constant.URL_IMAGE+"images/"+list.jadwal.mahasiswa.foto) {
                 crossfade(true)
+                crossfade(400)
                 placeholder(R.drawable.logo_unm)
                 transformations(CircleCropTransformation())
             }

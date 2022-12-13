@@ -1,5 +1,6 @@
 package domain.skripsi.absensinfc.ui
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -51,20 +52,36 @@ class ProfileFragment : Fragment() {
         emailTextField.hint = sharedPref.getString(PreferencesHelper.PREF_USER_EMAIL)
 
         imgProfile.load(
-            Constant.URL_IMAGE  +"dosen/"+
+            Constant.URL_IMAGE + "dosen/" +
                     sharedPref.getString(PreferencesHelper.PREF_USER_PHOTO)
         ) {
             crossfade(true)
+            crossfade(400)
             placeholder(R.drawable.logo_unm)
             transformations(CircleCropTransformation())
         }
 
         tvLogout.setOnClickListener {
+            logoutAlert()
+        }
+
+    }
+
+    private fun logoutAlert() {
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Keluar")
+        builder.setMessage("Yakin keluar ?")
+
+        builder.setPositiveButton("Ya") { _, _ ->
             sharedPref.logout()
             startActivity(Intent(requireActivity(), LoginActivity::class.java))
             activity?.finish()
         }
 
+        builder.setNegativeButton("Tidak") { _, _ ->
+            // cancel
+        }
+        builder.show()
     }
-
 }
