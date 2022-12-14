@@ -151,7 +151,7 @@ class HomeFragment : Fragment() {
                         Log.e(requireView().toString(), "onFailure: $t")
                         Toast.makeText(
                             requireContext(),
-                            "Gagal : Terjadi kesalahan :" + t.message.toString(),
+                            "Gagal : Terjadi kesalahan : " + t.message.toString(),
                             Toast.LENGTH_SHORT
                         )
                             .show()

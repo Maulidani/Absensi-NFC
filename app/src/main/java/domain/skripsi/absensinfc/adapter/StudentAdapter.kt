@@ -49,9 +49,9 @@ class StudentAdapter(
 
             item.setOnClickListener {
                 if (type == "cek-status") {
-                    Toast.makeText(itemView.context, "type : $type", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(itemView.context, "type : $type", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(itemView.context, "type : detail", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(itemView.context, "type : detail", Toast.LENGTH_SHORT).show()
 
 //                    ContextCompat.startActivity(
 //                        itemView.context,

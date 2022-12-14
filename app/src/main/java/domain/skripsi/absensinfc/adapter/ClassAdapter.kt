@@ -40,7 +40,7 @@ class ClassAdapter(
                     "Kode/Kelas : ${list.kelas.kode_kelas}/${list.kelas.kelas}"
 
                 item.setOnClickListener {
-                    Toast.makeText(itemView.context, "type : $type", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(itemView.context, "type : $type", Toast.LENGTH_SHORT).show()
 
 //                    intentToDetailClass()
                 }
@@ -53,7 +53,7 @@ class ClassAdapter(
                 tvClassName.typeface = Typeface.DEFAULT
 
                 item.setOnClickListener {
-                    Toast.makeText(itemView.context, "type : $type", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(itemView.context, "type : $type", Toast.LENGTH_SHORT).show()
 
 //                    intentToDetailClass()
                 }

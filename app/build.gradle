@@ -36,6 +36,7 @@ android {
 
 dependencies {
 
+    implementation 'com.github.romellfudi:FudiNFC:1.2.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation "androidx.room:room-runtime:2.4.3"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
