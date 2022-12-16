@@ -1,22 +1,20 @@
 package domain.skripsi.absensinfc.ui
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import domain.skripsi.absensinfc.R
-import domain.skripsi.absensinfc.model.ResponseData
-import domain.skripsi.absensinfc.model.ResponseModel
-import domain.skripsi.absensinfc.network.ApiClient
+import domain.skripsi.absensinfc.network.DownloadFile
 import domain.skripsi.absensinfc.utils.PreferencesHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var sharedPref: PreferencesHelper
@@ -26,6 +24,7 @@ class SplashScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
 
         sharedPref = PreferencesHelper(applicationContext)
+
 
     }
 
@@ -45,6 +44,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 finish()
             }
         }
+
     }
 
 }

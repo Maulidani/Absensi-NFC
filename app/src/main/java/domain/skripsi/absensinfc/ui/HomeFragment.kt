@@ -166,6 +166,8 @@ class HomeFragment : Fragment() {
 
     private fun initMatkul(data: ArrayList<ResponseData>) {
 
+        var isAvailable = false
+
         val formatterTime = DateTimeFormatter.ofPattern("HH:mm:ss")
         val current = LocalDateTime.now()
 
@@ -231,7 +233,17 @@ class HomeFragment : Fragment() {
                     }
                 }
 
+                isAvailable = true
                 continue
+            }
+
+            if (!isAvailable) {
+                Toast.makeText(
+                    requireContext(),
+                    "Tidak ada jadwal sekarang",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
             }
         }
 

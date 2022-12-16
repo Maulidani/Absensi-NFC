@@ -25,6 +25,11 @@ interface ApiService {
         @Path("code-jadwal") codejadwal: Int
     ): Call<ResponseModel>
 
+    @GET("matkul-kelas/{code-matkul}")
+    fun apiGetKelas(
+        @Path("code-matkul") codeMatkul: Int
+    ): Call<ResponseModel>
+
     @GET("bio-mhs/{code-mhs}")
     fun apiBiodataMahasiswa(
         @Path("code-mahasiswa") codeMhs: Int
@@ -33,18 +38,30 @@ interface ApiService {
     @GET("status-all-mhs/{code-pertemuan}")
     fun apiStatusAllMahasiswa(
         @Path("code-pertemuan") codePertemuan: Int
-        ): Call<ResponseModel>
+    ): Call<ResponseModel>
 
     @FormUrlEncoded
     @POST("absen/{code-pertemuan}")
     fun apiAbsen(
         @Path("code-pertemuan") codePertemuan: Int,
-        @Field("nim") nim: String,
-        ): Call<ResponseModel>
+        @Field("kode_nfc") kodeNfc: String,
+//        @Field("nim") nim: String,
+    ): Call<ResponseModel>
 
     @FormUrlEncoded
     @POST("update-profil-dosen/{code-dosen}")
     fun apiUpdateProfilDosen(
         @Path("code-dosen") codeDosen: Int
+    ): Call<ResponseModel>
+
+    @FormUrlEncoded
+    @POST("status-pertemuan/{code-pembagian-jadwal}")
+    fun apiAbsenPertemuan(
+        @Path("code-pembagian-jadwal") pembagianJadwal: Int,
+        @Field("pertemuan") pertemuan: String,
+    ): Call<ResponseModel>
+
+    @GET("show-pertemuan")
+    fun apiShowPertemuan(
     ): Call<ResponseModel>
 }

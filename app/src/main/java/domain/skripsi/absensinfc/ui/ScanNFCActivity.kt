@@ -6,19 +6,19 @@ import android.content.IntentFilter
 import android.nfc.NdefMessage
 import android.nfc.NdefRecord
 import android.nfc.NfcAdapter
+import android.nfc.Tag
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.recyclerview.widget.LinearLayoutManager
 import domain.skripsi.absensinfc.R
-import domain.skripsi.absensinfc.adapter.StudentAdapter
 import domain.skripsi.absensinfc.model.ResponseModel
 import domain.skripsi.absensinfc.network.ApiClient
 import domain.skripsi.absensinfc.utils.PreferencesHelper
@@ -39,6 +39,7 @@ class ScanNFCActivity : AppCompatActivity() {
     private var readIntentFilter: Array<IntentFilter>? = null
 
     private val imgBack: ImageView by lazy { findViewById(R.id.imgBack) }
+    private val loading: ProgressBar by lazy { findViewById(R.id.progressBar) }
     private val tvSeeAll: TextView by lazy { findViewById(R.id.tvSeeAll) }
     private val tvHead: TextView by lazy { findViewById(R.id.tvHead) }
     private val cardResultNfc: CardView by lazy { findViewById(R.id.cardResultNfc) }
@@ -60,6 +61,8 @@ class ScanNFCActivity : AppCompatActivity() {
         intentMatkulName = intent.getStringExtra("matkul_name").toString()
         intentPertemuan = intent.getStringExtra("pertemuan").toString()
 
+        loading.visibility = View.GONE
+
         if (!sharedPref.getBoolean(PreferencesHelper.PREF_IS_LOGIN)) {
 
             finish()
@@ -70,12 +73,14 @@ class ScanNFCActivity : AppCompatActivity() {
             ).show()
         } else if (intentMatkulName == "null") {
 
-            finish()
             Toast.makeText(
                 applicationContext,
                 "Pilih matakuliah terlebih dahulu",
                 Toast.LENGTH_SHORT
             ).show()
+
+            startActivity(Intent(applicationContext, HomeActivity::class.java))
+            finish()
 
         } else {
             initNfc()
@@ -105,31 +110,6 @@ class ScanNFCActivity : AppCompatActivity() {
         try {
             nfcAdapter = NfcAdapter.getDefaultAdapter(this)
 
-            //nfc process start
-//            pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-//                PendingIntent.getActivity(
-//                    this,
-//                    0,
-//                    Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),
-//                    PendingIntent.FLAG_MUTABLE
-//                )
-//            } else {
-//                PendingIntent.getActivity(
-//                    this,
-//                    0,
-//                    Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),
-//                    PendingIntent.FLAG_IMMUTABLE
-//                )
-//            }
-//            val ndef = IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED)
-//
-//            try {
-//                ndef.addDataType("text/plain")
-//            } catch (e: IntentFilter.MalformedMimeTypeException) {
-//                throw RuntimeException("fail", e)
-//            }
-//            intentFiltersArray = arrayOf(ndef)
-
             if (nfcAdapter == null) {
                 // Stop here, we definitely need NFC
                 Toast.makeText(
@@ -149,15 +129,15 @@ class ScanNFCActivity : AppCompatActivity() {
                     val objIntent = Intent(this, javaClass)
                     objIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                        pendingIntent = PendingIntent.getActivity(
+                    pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        PendingIntent.getActivity(
                             this,
                             0,
                             objIntent,
                             PendingIntent.FLAG_MUTABLE
                         )
                     } else {
-                        pendingIntent = PendingIntent.getActivity(
+                        PendingIntent.getActivity(
                             this,
                             0,
                             objIntent,
@@ -197,7 +177,15 @@ class ScanNFCActivity : AppCompatActivity() {
             intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
         }
 
-        if (messages != null) {
+        val tag: Tag? = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
+
+        if (messages != null && tag != null) {
+
+            val tagId = tag.id?.let { byteArrayToHexString(it) }
+            Log.e(
+                "processNfc: ",
+                "WELL_KNOWN: ID: $tagId"
+            )
 
             for (message: Parcelable in messages) {
                 val ndefMessage = message as NdefMessage
@@ -219,7 +207,10 @@ class ScanNFCActivity : AppCompatActivity() {
                                     "WELL_KNOWN: TEXT: $result : ${record.payload}"
                                 )
 
-                                attendStudent(result)
+//                                tvStudentStatus.text =
+//                                    "jadwal id : $intentJadwalId , nim : $result , id : $tagId"
+
+                                attendStudent(result, tagId!!)
 
                             } else if (Arrays.equals(record.type, NdefRecord.RTD_URI)) {
 
@@ -241,30 +232,54 @@ class ScanNFCActivity : AppCompatActivity() {
         }
     }
 
-    private fun attendStudent(result: String) {
-//            loading.visibility = View.VISIBLE
-        val code = 0
+    private fun attendStudent(resultNim: String, tagId: String) {
+        loading.visibility = View.VISIBLE
 
-        ApiClient.SetContext(applicationContext).instancesWithToken.apiAbsen(code, result)
-            .enqueue(object : Callback<ResponseModel> {
-                override fun onResponse(
-                    call: Call<ResponseModel>,
-                    response: Response<ResponseModel>
-                ) {
-                    val responseBody = response.body()
-                    val status = responseBody?.status
-                    val message = responseBody?.message
-                    val data = responseBody?.data
+        intentJadwalId?.toIntOrNull()?.let {
+            ApiClient.SetContext(applicationContext).instancesWithToken.apiAbsen(
+                it,
+                tagId,
+//                resultNim
+            )
+                .enqueue(object : Callback<ResponseModel> {
+                    override fun onResponse(
+                        call: Call<ResponseModel>,
+                        response: Response<ResponseModel>
+                    ) {
+                        val responseBody = response.body()
+                        val name = responseBody?.nama
+                        val nim = responseBody?.nim
+                        val status = responseBody?.status
+                        val message = responseBody?.message
+                        val data = responseBody?.data
 
-                    if (response.isSuccessful && status == true) {
-                        Log.e(this@ScanNFCActivity.toString(), "onResponse: $response")
+                        if (response.isSuccessful && status == true) {
+                            Log.e(this@ScanNFCActivity.toString(), "onResponse: $response")
 
-                        if (data != null) {
+                            if (message == "Mahasiswa sudah absen") {
+                                tvStudentName.text = "Nama : -"
+                                tvStudentNim.text = "NIM : -"
+                                tvStudentStatus.text = "Data ini sudah absen"
+                            } else {
 
-                            // init view result
-                            //
+                                // init view result
+                                tvStudentName.text = "Nama : $name"
+                                tvStudentNim.text = "NIM : $nim"
+                                tvStudentStatus.text = "Absen berhasil (hadir)"
 
-                            if (data.size == 0) {
+                            }
+
+                        } else {
+                            if (message == "Mahasiswa sudah absen") {
+                                tvStudentName.text = "Nama : -"
+                                tvStudentNim.text = "NIM : -"
+                                tvStudentStatus.text = "Data ini sudah absen"
+                            } else {
+
+                                tvStudentName.text = "Nama : -"
+                                tvStudentNim.text = "NIM : -"
+                                tvStudentStatus.text = "Data ini tidak terdaftar"
+
                                 Toast.makeText(
                                     applicationContext,
                                     "Tidak ada data",
@@ -272,43 +287,27 @@ class ScanNFCActivity : AppCompatActivity() {
                                 )
                                     .show()
                             }
-
-                        } else {
-                            Toast.makeText(
-                                applicationContext,
-                                "Tidak ada data",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
                         }
 
-                    } else {
-                        sharedPref.logout()
-                        finish()
+                        loading.visibility = View.GONE
 
-                        Log.e(this@ScanNFCActivity.toString(), "onResponse: $response")
-                        Toast.makeText(
-                            applicationContext,
-                            "Gagal : terjadi kesalahan, login ulang",
-                            Toast.LENGTH_SHORT
-                        ).show()
                     }
 
-//                            loading.visibility = View.GONE
+                    override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
 
-                }
+                        Log.e(this@ScanNFCActivity.toString(), "onFailure: $t")
+                        Toast.makeText(applicationContext, t.message.toString(), Toast.LENGTH_SHORT)
+                            .show()
 
-                override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
+                        tvStudentName.text = "Nama : -"
+                        tvStudentNim.text = "NIM : -"
+                        tvStudentStatus.text = "Data ini tidak terdaftar"
 
-                    Log.e(this@ScanNFCActivity.toString(), "onFailure: $t")
-                    Toast.makeText(applicationContext, t.message.toString(), Toast.LENGTH_SHORT)
-                        .show()
+                        loading.visibility = View.GONE
+                    }
 
-//                            loading.visibility = View.GONE
-
-                }
-
-            })
+                })
+        }
 
 
     }
@@ -339,6 +338,41 @@ class ScanNFCActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         disableRead()
+    }
+
+    private fun byteArrayToHexString(inarray: ByteArray): String? {
+        var i: Int
+        var j: Int
+        var `in`: Int
+        val hex = arrayOf(
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F"
+        )
+        var out = ""
+        j = 0
+        while (j < inarray.size) {
+            `in` = inarray[j].toInt() and 0xff
+            i = `in` shr 4 and 0x0f
+            out += hex[i]
+            i = `in` and 0x0f
+            out += hex[i]
+            ++j
+        }
+        return out
     }
 
 }

@@ -59,14 +59,14 @@
                 android:hint="Kata sandi"
                 android:textColorHint="@color/black"
                 app:boxBackgroundColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@+id/nipTextField"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                app:layout_constraintTop_toBottomOf="@+id/nipTextField">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/inputPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
+                    android:inputType="textPassword"
                     android:textSize="12sp" />
             </com.google.android.material.textfield.TextInputLayout>
 

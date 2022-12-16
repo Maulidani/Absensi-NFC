@@ -1,5 +1,6 @@
 package domain.skripsi.absensinfc.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +13,12 @@ import de.hdodenhof.circleimageview.CircleImageView
 import domain.skripsi.absensinfc.R
 import domain.skripsi.absensinfc.model.ResponseData
 import domain.skripsi.absensinfc.utils.Constant
-import kotlin.collections.ArrayList
 
-class StudentAdapter(
-    private val list: ArrayList<ResponseData>,
+class StudentAbsenAdapter(
+    private val list: List<ResponseData>,
     private val type: String
 ) :
-    RecyclerView.Adapter<StudentAdapter.ListViewHolder>() {
+    RecyclerView.Adapter<StudentAbsenAdapter.ListViewHolder>() {
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -30,15 +30,28 @@ class StudentAdapter(
 
         fun bindData(list: ResponseData) {
 
-            tvStudentName.text = list.jadwal.mahasiswa.nama
-            tvStudentNim.text = list.jadwal.mahasiswa.nim.toString()
-            tvStudentStatus.text = list.status
 
-            imgStudent.load(Constant.URL_IMAGE + "images/" + list.jadwal.mahasiswa.foto) {
-                crossfade(true)
-                crossfade(400)
-                placeholder(R.drawable.logo_unm)
-                transformations(CircleCropTransformation())
+            if (list.status == "hadir") {
+                tvStudentName.text = list.jadwal.mahasiswa.nama
+                tvStudentNim.text = list.jadwal.mahasiswa.nim.toString()
+                tvStudentStatus.text = "Hadir"
+                imgStudent.load(Constant.URL_IMAGE + "images/" + list.jadwal.mahasiswa.foto) {
+                    crossfade(true)
+                    crossfade(400)
+                    placeholder(R.drawable.logo_unm)
+                    transformations(CircleCropTransformation())
+                }
+            } else {
+                imgStudent.load(Constant.URL_IMAGE + "images/" + list.mahasiswa.foto) {
+                    crossfade(true)
+                    crossfade(400)
+                    placeholder(R.drawable.logo_unm)
+                    transformations(CircleCropTransformation())
+                }
+                tvStudentName.text = list.mahasiswa.nama
+                tvStudentNim.text = list.mahasiswa.nim.toString()
+                tvStudentStatus.text = "Tidak hadir"
+                tvStudentStatus.setTextColor(Color.RED)
             }
 
             item.setOnClickListener {
@@ -65,7 +78,7 @@ class StudentAdapter(
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        holder.bindData(list[position])
+        holder.bindData(list.get(position))
     }
 
     override fun getItemCount(): Int = list.size

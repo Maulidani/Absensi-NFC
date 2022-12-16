@@ -6,6 +6,10 @@ class ResponseModel(
     val status: Boolean,
     val message: String,
     val data: ArrayList<ResponseData>,
+    val hadir: ArrayList<ResponseData>,
+    val alpa: ArrayList<ResponseData>,
+    val nama: String,
+    val nim: Int,
 )
 
 class ResponseModelDataIsObject(
@@ -25,12 +29,14 @@ class ResponseData(
     val pembagian_jadwal: ResponsePembagianJadwal,
 
     val jadwal_id: Int,
-    val status: String,
+    val status: String?,
     val nim: String,
     val pertemuan: String,
     val waktu_absen: String,
     val user_id: Int,
     val jadwal: ResponseJadwal,
+    val mahasiswa_id: Int,
+    val mahasiswa: ResponseUser,
 
     val hari: String,
     val jam_mulai: String,
@@ -38,7 +44,11 @@ class ResponseData(
     val kelas: ResponseKelas,
 
     val mata_kuliah_id: Int,
-    val matkul: ResponseMatkul
+    val matkul: ResponseMatkul,
+
+    val name: String,
+
+    val semester: ResponseSemester,
 
 )
 
@@ -58,7 +68,7 @@ class ResponseUser(
     val created_at: String,
     val updated_at: String,
 
-    val kode_nfc: Int,
+    val kode_nfc: String,
 )
 
 class ResponsePembagianJadwal(
@@ -94,4 +104,11 @@ class ResponseJadwal(
     val id: Int,
     val mahasiswa_id: Int,
     val mahasiswa: ResponseUser
+)
+
+class ResponseSemester(
+    val id: Int,
+    val kode_smstr: String,
+    val semester:String,
+    val thn_akademik:String,
 )

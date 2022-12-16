@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import domain.skripsi.absensinfc.R
+import domain.skripsi.absensinfc.adapter.ClassAdapter
 import domain.skripsi.absensinfc.adapter.StudentAdapter
 import domain.skripsi.absensinfc.model.ResponseModel
 import domain.skripsi.absensinfc.network.ApiClient
@@ -19,26 +20,24 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ClassStudentActivity : AppCompatActivity() {
+class ListkelasActivity : AppCompatActivity() {
     private lateinit var sharedPref: PreferencesHelper
 
     private val imgBack: ImageView by lazy { findViewById(R.id.imgBack) }
     private val tvHead: TextView by lazy { findViewById(R.id.tvHead) }
     private val loading: ProgressBar by lazy { findViewById(R.id.progressBar) }
-    private val rvStatusHadir: RecyclerView by lazy { findViewById(R.id.rvStatusHadir) }
+    private val rvKelas: RecyclerView by lazy { findViewById(R.id.rvKelas) }
 
-    private var intentJadwalId: String? = null
+    private var intentId: String? = null
     private var intentMatkulName: String? = null
-    private var intentPertemuan: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_class_student)
+        setContentView(R.layout.activity_listkelas)
 
         sharedPref = PreferencesHelper(applicationContext)
-        intentJadwalId = intent.getStringExtra("jadwal_id").toString()
+        intentId = intent.getStringExtra("id").toString()
         intentMatkulName = intent.getStringExtra("matkul_name").toString()
-        intentPertemuan = intent.getStringExtra("pertemuan").toString()
 
         loading.visibility = View.GONE
 
@@ -46,15 +45,14 @@ class ClassStudentActivity : AppCompatActivity() {
 
         imgBack.setOnClickListener { finish() }
 
-        getStatusHadir(intentJadwalId!!)
-
+        getKelas(intentId!!)
     }
 
-    private fun getStatusHadir(intentJadwalId: String) {
+    private fun getKelas(intentId: String) {
         loading.visibility = View.VISIBLE
 
-        intentJadwalId.toIntOrNull()?.let {
-            ApiClient.SetContext(applicationContext).instancesWithToken.apiStatusMahasiswa(it)
+        intentId.toIntOrNull()?.let {
+            ApiClient.SetContext(applicationContext).instancesWithToken.apiGetKelas(it)
                 .enqueue(object : Callback<ResponseModel> {
                     override fun onResponse(
                         call: Call<ResponseModel>,
@@ -66,14 +64,14 @@ class ClassStudentActivity : AppCompatActivity() {
                         val data = responseBody?.data
 
                         if (response.isSuccessful && status == true) {
-                            Log.e(this@ClassStudentActivity.toString(), "onResponse: $response")
+                            Log.e(this@ListkelasActivity.toString(), "onResponse: $response")
 
                             if (data != null) {
 
-                                val adapter = data.let { it2 -> StudentAdapter(it2, "cek-status") }
-                                rvStatusHadir.layoutManager =
+                                val adapter = data.let { ClassAdapter(it, "kelas") }
+                                rvKelas.layoutManager =
                                     LinearLayoutManager(applicationContext)
-                                rvStatusHadir.adapter = adapter
+                                rvKelas.adapter = adapter
 
                                 if (data.size == 0) {
                                     Toast.makeText(
@@ -97,7 +95,7 @@ class ClassStudentActivity : AppCompatActivity() {
                             sharedPref.logout()
                             finish()
 
-                            Log.e(this@ClassStudentActivity.toString(), "onResponse: $response")
+                            Log.e(this@ListkelasActivity.toString(), "onResponse: $response")
                             Toast.makeText(
                                 applicationContext,
                                 "Gagal : login ulang",
@@ -111,7 +109,7 @@ class ClassStudentActivity : AppCompatActivity() {
 
                     override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
 
-                        Log.e(this@ClassStudentActivity.toString(), "onFailure: $t")
+                        Log.e(this@ListkelasActivity.toString(), "onFailure: $t")
                         Toast.makeText(applicationContext, t.message.toString(), Toast.LENGTH_SHORT)
                             .show()
 
