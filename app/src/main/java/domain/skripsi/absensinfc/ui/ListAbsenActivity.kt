@@ -33,7 +33,6 @@ class ListAbsenActivity : AppCompatActivity() {
 
     private val imgBack: ImageView by lazy { findViewById(R.id.imgBack) }
     private val tvHead: TextView by lazy { findViewById(R.id.tvHead) }
-    private val btnDownloadReport: MaterialButton by lazy { findViewById(R.id.btnDownloadReport) }
     private val loading: ProgressBar by lazy { findViewById(R.id.progressBar) }
     private val rvAbsen: RecyclerView by lazy { findViewById(R.id.rvAbsenMahasiswa) }
 
@@ -52,16 +51,7 @@ class ListAbsenActivity : AppCompatActivity() {
 
         tvHead.text = "Pertemuan " + intentPertemuan
 
-        val current = LocalDateTime.now()
-
         imgBack.setOnClickListener { finish() }
-
-        btnDownloadReport.setOnClickListener {
-            downloadFile(
-                "report-absen-$current",
-                Constant.URL_REPORT_DOWNLOAD + intentIdPembagianJadwal
-            )
-        }
 
         getAbsenMahasiswa(intentIdPembagianJadwal!!, intentPertemuan!!)
     }
@@ -165,45 +155,4 @@ class ListAbsenActivity : AppCompatActivity() {
         }
     }
 
-    private fun downloadFile(fileName: String, url: String) {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-            ) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                Toast.makeText(
-                    applicationContext,
-                    "Izinkan penyimpanan terlebih dahulu",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-            } else {
-                // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    1000
-                );
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        } else {
-            val downloadFile = DownloadFile()
-            downloadFile.startDownload(this, fileName, url)
-        }
-    }
 }
