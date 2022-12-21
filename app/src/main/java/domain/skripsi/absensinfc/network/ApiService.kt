@@ -64,4 +64,9 @@ interface ApiService {
     @GET("show-pertemuan")
     fun apiShowPertemuan(
     ): Call<ResponseModel>
+
+    @GET("laporan-absen-mhs/{code-pembagian-jadwal}")
+    fun apiDownloadReport(
+        @Path("code-pembagian-jadwal") pembagianJadwal: Int,
+    ): Call<ResponseModel>
 }

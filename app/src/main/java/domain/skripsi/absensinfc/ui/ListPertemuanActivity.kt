@@ -198,7 +198,12 @@ class ListPertemuanActivity : AppCompatActivity() {
             }
         } else {
             val downloadFile = DownloadFile()
-            downloadFile.startDownload(this, fileName, url)
+            downloadFile.startDownload(
+                this,
+                fileName,
+                url,
+                sharedPref.getString(PreferencesHelper.PREF_USER_TOKEN)
+            )
         }
     }
 }

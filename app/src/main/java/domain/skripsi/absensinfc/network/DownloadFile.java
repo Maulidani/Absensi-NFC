@@ -6,11 +6,14 @@ import android.net.Uri;
 import android.os.Environment;
 import android.widget.Toast;
 
+import domain.skripsi.absensinfc.utils.Constant;
+
 public class DownloadFile {
 
-    public void startDownload(Context context, String filename, String url) {
+    public void startDownload(Context context, String filename, String url, String token) {
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.addRequestHeader("Authorization", "Bearer " + token);
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
         request.setTitle("Report Absen");
         request.setDescription("Download file....");
