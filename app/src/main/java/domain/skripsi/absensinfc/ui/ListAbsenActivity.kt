@@ -97,7 +97,6 @@ class ListAbsenActivity : AppCompatActivity() {
                                     listStudent.add(i)
                                 }
 
-
                                 val adapter =
                                     StudentAbsenAdapter(
                                         listStudent,

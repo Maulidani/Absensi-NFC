@@ -73,7 +73,8 @@ class ClassAdapter(
                         Intent(
                             itemView.context,
                             ListPertemuanActivity::class.java
-                        ).putExtra("kelas", list.kelas.kelas),
+                        ).putExtra("kelas", list.kelas.kelas)
+                            .putExtra("kelas_id", list.kelas.id.toString()),
                         null
                     )
 

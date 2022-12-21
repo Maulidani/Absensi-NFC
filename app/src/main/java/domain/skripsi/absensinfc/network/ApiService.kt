@@ -61,8 +61,9 @@ interface ApiService {
         @Field("pertemuan") pertemuan: String,
     ): Call<ResponseModel>
 
-    @GET("show-pertemuan")
+    @GET("show-pertemuan/{code-kelas}")
     fun apiShowPertemuan(
+        @Path("code-kelas") codeKelas: String,
     ): Call<ResponseModel>
 
     @GET("laporan-absen-mhs/{code-pembagian-jadwal}")

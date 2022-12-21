@@ -20,7 +20,6 @@ import domain.skripsi.absensinfc.adapter.ClassAdapter
 import domain.skripsi.absensinfc.model.ResponseModel
 import domain.skripsi.absensinfc.network.ApiClient
 import domain.skripsi.absensinfc.network.DownloadFile
-import domain.skripsi.absensinfc.utils.Constant
 import domain.skripsi.absensinfc.utils.Constant.URL_REPORT_DOWNLOAD
 import domain.skripsi.absensinfc.utils.PreferencesHelper
 import retrofit2.Call
@@ -38,6 +37,7 @@ class ListPertemuanActivity : AppCompatActivity() {
     private val rvPertemuan: RecyclerView by lazy { findViewById(R.id.rvPertemuan) }
 
     private var intentKelas: String? = null
+    private var intentKelasId: String? = null
 
     private var pembagianJadwalId: String? = null
 
@@ -47,6 +47,7 @@ class ListPertemuanActivity : AppCompatActivity() {
 
         sharedPref = PreferencesHelper(applicationContext)
         intentKelas = intent.getStringExtra("kelas").toString()
+        intentKelasId = intent.getStringExtra("kelas_id").toString()
 
         loading.visibility = View.GONE
 
@@ -80,14 +81,14 @@ class ListPertemuanActivity : AppCompatActivity() {
         }
 
 
-        getPertemuan()
+        getPertemuan(intentKelasId!!)
 
     }
 
-    private fun getPertemuan() {
+    private fun getPertemuan(intentKelasId: String) {
         loading.visibility = View.VISIBLE
 
-        ApiClient.SetContext(applicationContext).instancesWithToken.apiShowPertemuan()
+        ApiClient.SetContext(applicationContext).instancesWithToken.apiShowPertemuan(intentKelasId)
             .enqueue(object : Callback<ResponseModel> {
                 override fun onResponse(
                     call: Call<ResponseModel>,

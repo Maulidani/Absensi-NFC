@@ -30,8 +30,7 @@ class StudentAbsenAdapter(
 
         fun bindData(list: ResponseData) {
 
-
-            if (list.status == "hadir") {
+            if (list.status == "hadir" ) {
                 tvStudentName.text = list.jadwal.mahasiswa.nama
                 tvStudentNim.text = list.jadwal.mahasiswa.nim.toString()
                 tvStudentStatus.text = "Hadir"
