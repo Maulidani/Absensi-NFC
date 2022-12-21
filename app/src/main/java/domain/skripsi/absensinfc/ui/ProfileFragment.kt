@@ -15,6 +15,7 @@ import com.google.android.material.textfield.TextInputLayout
 import de.hdodenhof.circleimageview.CircleImageView
 import domain.skripsi.absensinfc.R
 import domain.skripsi.absensinfc.utils.Constant
+import domain.skripsi.absensinfc.utils.Constant.URL_IMAGE
 import domain.skripsi.absensinfc.utils.PreferencesHelper
 
 class ProfileFragment : Fragment() {
@@ -52,7 +53,7 @@ class ProfileFragment : Fragment() {
         emailTextField.hint = sharedPref.getString(PreferencesHelper.PREF_USER_EMAIL)
 
         imgProfile.load(
-            Constant.URL_IMAGE + "dosen/" +
+            URL_IMAGE + "dosen/" +
                     sharedPref.getString(PreferencesHelper.PREF_USER_PHOTO)
         ) {
             crossfade(true)

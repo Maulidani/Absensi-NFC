@@ -12,6 +12,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import domain.skripsi.absensinfc.R
 import domain.skripsi.absensinfc.model.ResponseData
 import domain.skripsi.absensinfc.utils.Constant
+import domain.skripsi.absensinfc.utils.Constant.URL_IMAGE
 import kotlin.collections.ArrayList
 
 class StudentAdapter(
@@ -34,7 +35,7 @@ class StudentAdapter(
             tvStudentNim.text = list.jadwal.mahasiswa.nim.toString()
             tvStudentStatus.text = list.status
 
-            imgStudent.load(Constant.URL_IMAGE + "images/" + list.jadwal.mahasiswa.foto) {
+            imgStudent.load(URL_IMAGE + "images/" + list.jadwal.mahasiswa.foto) {
                 crossfade(true)
                 crossfade(400)
                 placeholder(R.drawable.logo_unm)

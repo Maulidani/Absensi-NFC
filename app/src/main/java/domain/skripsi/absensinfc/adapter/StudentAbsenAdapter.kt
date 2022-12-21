@@ -13,6 +13,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import domain.skripsi.absensinfc.R
 import domain.skripsi.absensinfc.model.ResponseData
 import domain.skripsi.absensinfc.utils.Constant
+import domain.skripsi.absensinfc.utils.Constant.URL_IMAGE
 
 class StudentAbsenAdapter(
     private val list: List<ResponseData>,
@@ -30,18 +31,20 @@ class StudentAbsenAdapter(
 
         fun bindData(list: ResponseData) {
 
+            imgStudent.visibility = View.GONE
+
             if (list.status == "hadir" ) {
                 tvStudentName.text = list.jadwal.mahasiswa.nama
                 tvStudentNim.text = list.jadwal.mahasiswa.nim.toString()
                 tvStudentStatus.text = "Hadir"
-                imgStudent.load(Constant.URL_IMAGE + "images/" + list.jadwal.mahasiswa.foto) {
+                imgStudent.load(URL_IMAGE + "images/" + list.jadwal.mahasiswa.foto) {
                     crossfade(true)
                     crossfade(400)
                     placeholder(R.drawable.logo_unm)
                     transformations(CircleCropTransformation())
                 }
             } else {
-                imgStudent.load(Constant.URL_IMAGE + "images/" + list.mahasiswa.foto) {
+                imgStudent.load(URL_IMAGE + "images/" + list.mahasiswa.foto) {
                     crossfade(true)
                     crossfade(400)
                     placeholder(R.drawable.logo_unm)

@@ -99,7 +99,7 @@ class LoginActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<ResponseModelDataIsObject>, t: Throwable) {
 
                     Log.e(this@LoginActivity.toString(), "onFailure: $t")
-                    Toast.makeText(applicationContext, "Gagal : Terjadi kesalahan"+t.message.toString(), Toast.LENGTH_SHORT)
+                    Toast.makeText(applicationContext, "Gagal : Terjadi kesalahan "+t.message.toString(), Toast.LENGTH_LONG)
                         .show()
 
                     btnLogin.setShowProgress(false)

@@ -2,14 +2,16 @@ package domain.skripsi.absensinfc.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,13 +21,15 @@ import domain.skripsi.absensinfc.R
 import domain.skripsi.absensinfc.adapter.ClassAdapter
 import domain.skripsi.absensinfc.model.ResponseModel
 import domain.skripsi.absensinfc.network.ApiClient
-import domain.skripsi.absensinfc.network.DownloadFile
 import domain.skripsi.absensinfc.utils.Constant.URL_REPORT_DOWNLOAD
 import domain.skripsi.absensinfc.utils.PreferencesHelper
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.*
 import java.time.LocalDateTime
+
 
 class ListPertemuanActivity : AppCompatActivity() {
     private lateinit var sharedPref: PreferencesHelper
@@ -68,6 +72,7 @@ class ListPertemuanActivity : AppCompatActivity() {
                     })",
                     URL_REPORT_DOWNLOAD + pembagianJadwalId
 //                    "http://pii.or.id/uploads/dummies.pdf"
+//                    "https://research.nhm.org/pdfs/10840/10840-001.pdf" //12mb
                 )
 
             } else {
@@ -198,13 +203,142 @@ class ListPertemuanActivity : AppCompatActivity() {
                 // result of the request.
             }
         } else {
-            val downloadFile = DownloadFile()
-            downloadFile.startDownload(
-                this,
-                fileName,
-                url,
-                sharedPref.getString(PreferencesHelper.PREF_USER_TOKEN)
-            )
+//            val downloadFile = DownloadFile()
+//            downloadFile.startDownload(
+//                this,
+//                fileName,
+//                url,
+//                sharedPref.getString(PREF_USER_TOKEN)
+//            )
+            Toast.makeText(applicationContext, "Mendownload file...", Toast.LENGTH_LONG).show()
+
+            downloadFileRetrofit(url, fileName)
         }
     }
+
+    private fun downloadFileRetrofit(url: String, fileName: String) {
+        ApiClient.SetContext(applicationContext).instancesWithToken.downloadFileWithDynamicUrlSync(
+            url
+        )
+            ?.enqueue(object : Callback<ResponseBody?> {
+                override fun onResponse(
+                    call: Call<ResponseBody?>,
+                    response: Response<ResponseBody?>
+                ) {
+                    if (response.isSuccessful) {
+                        Log.d("Download file retrofit", "server contacted and has file")
+                        val writtenToDisk: Boolean =
+                            writeResponseBodyToDisk(response.body(), fileName)
+
+                        Log.d(
+                            "Download file retrofit",
+                            "file download was a success? $writtenToDisk"
+                        )
+                    } else {
+                        Log.d("Download file retrofit", "server contact failed")
+
+                        Toast.makeText(
+                            applicationContext,
+                            "Gagal : request",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody?>, t: Throwable) {
+                    Log.e("Download file retrofit", "error")
+                    Toast.makeText(
+                        applicationContext,
+                        "Gagal : ${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+
+    }
+
+    private fun writeResponseBodyToDisk(body: ResponseBody?, fileName: String): Boolean {
+        return try {
+            val filePath =
+                downloadPath().toString() + "/" + fileName + ".pdf"
+//                File(getExternalFilesDir(null).toString() + File.separator.toString() + "Future Studio Icon.pdf")
+
+            var inputStream: InputStream? = null
+            var outputStream: OutputStream? = null
+            Log.d(
+                "writeResponseBodyToDisk",
+                "file : $filePath"
+            )
+            try {
+                val fileReader = ByteArray(4096)
+                val fileSize = body?.contentLength()
+                var fileSizeDownloaded: Long = 0
+                inputStream = body?.byteStream()
+                outputStream = FileOutputStream(filePath)
+                while (true) {
+                    val read: Int? = inputStream?.read(fileReader)
+                    if (read == -1) {
+                        break
+                    }
+                    outputStream.write(fileReader, 0, read!!)
+                    fileSizeDownloaded += read.toLong()
+                    Log.d(
+                        "writeResponseBodyToDisk",
+                        "file download: $fileSizeDownloaded of $fileSize"
+                    )
+                }
+                outputStream.flush()
+
+                Toast.makeText(
+                    applicationContext,
+                    "Selesai : periksa folder download anda",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                true
+            } catch (e: IOException) {
+                Toast.makeText(
+                    applicationContext,
+                    "Gagal mendownload : ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                false
+            } finally {
+                inputStream?.close()
+                outputStream?.close()
+            }
+        } catch (e: IOException) {
+            Toast.makeText(
+                applicationContext,
+                "Gagal mendownload : ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            false
+        }
+    }
+
+    private fun downloadPath(): File? {
+        var dir: File? = null
+        dir = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                    .toString()
+            )
+        } else {
+            File(Environment.getExternalStorageDirectory().toString())
+        }
+
+        // Make sure the path directory exists.
+        if (!dir.exists()) {
+            // Make it, if it doesn't exit
+            val success = dir.mkdirs()
+            if (!success) {
+                dir = null
+            }
+        }
+        return dir
+    }
 }
+

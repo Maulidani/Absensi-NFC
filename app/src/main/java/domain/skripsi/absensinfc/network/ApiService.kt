@@ -2,8 +2,10 @@ package domain.skripsi.absensinfc.network
 
 import domain.skripsi.absensinfc.model.ResponseModel
 import domain.skripsi.absensinfc.model.ResponseModelDataIsObject
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
+
 
 interface ApiService {
 
@@ -70,4 +72,8 @@ interface ApiService {
     fun apiDownloadReport(
         @Path("code-pembagian-jadwal") pembagianJadwal: Int,
     ): Call<ResponseModel>
+
+    @Streaming
+    @GET
+    fun downloadFileWithDynamicUrlSync(@Url fileUrl: String?): Call<ResponseBody?>?
 }
