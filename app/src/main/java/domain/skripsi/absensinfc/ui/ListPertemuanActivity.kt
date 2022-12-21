@@ -20,6 +20,8 @@ import domain.skripsi.absensinfc.adapter.ClassAdapter
 import domain.skripsi.absensinfc.model.ResponseModel
 import domain.skripsi.absensinfc.network.ApiClient
 import domain.skripsi.absensinfc.network.DownloadFile
+import domain.skripsi.absensinfc.utils.Constant
+import domain.skripsi.absensinfc.utils.Constant.URL_REPORT_DOWNLOAD
 import domain.skripsi.absensinfc.utils.PreferencesHelper
 import retrofit2.Call
 import retrofit2.Callback
@@ -52,6 +54,8 @@ class ListPertemuanActivity : AppCompatActivity() {
 
         imgBack.setOnClickListener { finish() }
 
+        btnDownloadReport.isEnabled = false
+
         btnDownloadReport.setOnClickListener {
             if (pembagianJadwalId != null) {
 
@@ -61,8 +65,8 @@ class ListPertemuanActivity : AppCompatActivity() {
                     "report-absen-${current.dayOfMonth}-${current.monthValue}-${current.year}-(${
                         (100..999).shuffled().last()
                     })",
-//                Constant.URL_REPORT_DOWNLOAD + pembagianJadwalId
-                    "http://pii.or.id/uploads/dummies.pdf"
+                    URL_REPORT_DOWNLOAD + pembagianJadwalId
+//                    "http://pii.or.id/uploads/dummies.pdf"
                 )
 
             } else {
@@ -113,6 +117,8 @@ class ListPertemuanActivity : AppCompatActivity() {
                                     .show()
                             } else {
                                 pembagianJadwalId = data[0].pembagian_jadwal_id.toString()
+                                btnDownloadReport.isEnabled = true
+
                             }
 
                         } else {

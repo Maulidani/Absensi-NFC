@@ -9,7 +9,7 @@ import domain.skripsi.absensinfc.R
 object Constant {
     const val BASE_URL = "http://192.168.73.5:8000/"
     const val URL_IMAGE = BASE_URL + "storage/public/"
-    const val URL_REPORT_DOWNLOAD = BASE_URL + "app/laporan-absen-mhs/"
+    const val URL_REPORT_DOWNLOAD = BASE_URL + "api/laporan-absen-mhs/"
 
     fun MaterialButton.setShowProgress(showProgress: Boolean?) {
 
