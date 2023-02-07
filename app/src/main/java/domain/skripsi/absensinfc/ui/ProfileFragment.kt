@@ -25,6 +25,7 @@ class ProfileFragment : Fragment() {
     private lateinit var nipTextField: TextInputLayout
     private lateinit var phoneTextField: TextInputLayout
     private lateinit var emailTextField: TextInputLayout
+    private lateinit var editPassword: TextInputLayout
     private lateinit var imgProfile: CircleImageView
 
     override fun onCreateView(
@@ -45,12 +46,18 @@ class ProfileFragment : Fragment() {
         nipTextField = requireView().findViewById(R.id.nipTextField)
         phoneTextField = requireView().findViewById(R.id.phoneTextField)
         emailTextField = requireView().findViewById(R.id.emailTextField)
+        editPassword = requireView().findViewById(R.id.editPasswordTextField)
         imgProfile = requireView().findViewById(R.id.imgProfile)
 
         nameTextField.hint = sharedPref.getString(PreferencesHelper.PREF_USER_NAME)
         nipTextField.hint = sharedPref.getString(PreferencesHelper.PREF_USER_NIP)
         phoneTextField.hint = sharedPref.getString(PreferencesHelper.PREF_USER_PHONE)
         emailTextField.hint = sharedPref.getString(PreferencesHelper.PREF_USER_EMAIL)
+        editPassword.setOnClickListener {
+            if (isAdded) {
+                startActivity(Intent(requireActivity(), EditPasswordActivity::class.java))
+            }
+        }
 
         imgProfile.load(
             URL_IMAGE + "dosen/" +

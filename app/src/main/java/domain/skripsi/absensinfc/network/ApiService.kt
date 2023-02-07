@@ -76,4 +76,12 @@ interface ApiService {
     @Streaming
     @GET
     fun downloadFileWithDynamicUrlSync(@Url fileUrl: String?): Call<ResponseBody?>?
+
+    @FormUrlEncoded
+    @POST("ganti-password")
+    fun apiEditPassword(
+        @Field("password_lama") old: String,
+        @Field("password_baru") new: String,
+        @Field("confirm_password") confirm: String,
+    ): Call<ResponseModelDataIsObject>
 }

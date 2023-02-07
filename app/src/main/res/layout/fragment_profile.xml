@@ -100,6 +100,26 @@
                 android:textSize="12sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editPasswordTextField"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Edit password"
+            android:textColorHint="@color/black"
+            app:boxBackgroundColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/emailTextField">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputEditPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:drawableEnd="@drawable/ic_right"
+                android:textSize="12sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgProfile"
             android:layout_width="80dp"
@@ -107,7 +127,7 @@
             android:layout_marginTop="14dp"
             android:src="@drawable/logo_unm"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/emailTextField" />
+            app:layout_constraintTop_toBottomOf="@id/editPasswordTextField" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvLogout"
